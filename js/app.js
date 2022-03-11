@@ -22,9 +22,8 @@ const addToLiked = (id) => {
 
 const reportPost = (id) => {
   reportedPostsId.push(id);
-  showPosts(posts);
-  // const remainingPosts = posts.filter((post) => !reportedPostsId.includes(post.id));
-  // showPosts(remainingPosts) 
+  const remainingPosts = posts.filter((post) => !reportedPostsId.includes(post.id));
+  showPosts(remainingPosts)
 };
 
 const displayContent = (text) => {
@@ -143,17 +142,24 @@ const showPosts = (posts) => {
 
 const displayLikedPosts = () => {
   const likedPosts = getLikedPosts();
+  const likedPostsContainer = document.getElementById("liked");
+  likedPostsContainer.textContent = '';
   likedPosts.forEach((post) => {
     const div = createPost(post);
-    document.getElementById("liked").appendChild(div);
+    //document.getElementById("liked").appendChild(div);
+    likedPostsContainer.appendChild(div)
+    //likedPostsContainer.innerHTML = '';
   });
 };
 
 const displayReportedPosts = () => {
   const reportedPosts = getReportedPosts();
+  const reportedPostsContainer = document.getElementById("reported");
+  reportedPostsContainer.textContent = '';
   reportedPosts.forEach((post) => {
     const div = createPost(post);
-    document.getElementById("reported").appendChild(div);
+    reportedPostsContainer.appendChild(div);
+    //document.getElementById("reported").appendChild(div);
   });
 };
 
@@ -161,6 +167,7 @@ const loadPosts = async () => {
   let data = await fetch('../data/posts.json');
   posts = await data.json();
   showPosts(posts);
+
 }
 
 loadPosts();
